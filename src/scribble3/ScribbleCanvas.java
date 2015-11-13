@@ -70,6 +70,7 @@ public class ScribbleCanvas extends JPanel {
     }
 
     public void saveFile(String filename) {
+        System.out.println(filename);
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename));
             out.writeObject(shapes);

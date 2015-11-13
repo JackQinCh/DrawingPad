@@ -14,8 +14,8 @@ public class FileFilter extends javax.swing.filechooser.FileFilter{
      */
     @Override
     public boolean accept(File f) {
-        if (f.isDirectory())
-            return true;
+//        if (f.isDirectory())
+//            return true;
         return f.getName().endsWith(".zhonghua");
     }
 

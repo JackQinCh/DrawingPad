@@ -87,19 +87,19 @@ public class Scribble extends JFrame {
         return new ScribbleCanvas();
     }
 
-    protected void newFile() {
+    public void newFile() {
         currentFilename = null;
         canvas.newFile();
         setTitle("Scribble Pad");
     }
 
-    protected void openFile(String filename) {
+    public void openFile(String filename) {
         currentFilename = filename;
         canvas.openFile(filename);
         setTitle("Scribble Pad [" + currentFilename + "]");
     }
 
-    protected void saveFile() {
+    public void saveFile() {
         if (currentFilename == null) {
             currentFilename = "Untitled";
         }
@@ -107,7 +107,7 @@ public class Scribble extends JFrame {
         setTitle("Scribble Pad [" + currentFilename + "]");
     }
 
-    protected void saveFileAs(String filename) {
+    public void saveFileAs(String filename) {
         currentFilename = filename;
         canvas.saveFile(filename);
         setTitle("Scribble Pad [" + currentFilename + "]");
