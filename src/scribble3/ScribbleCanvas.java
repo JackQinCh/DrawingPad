@@ -5,7 +5,6 @@ package scribble3;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.*;
 import java.io.*;
 import java.awt.event.*;
@@ -56,7 +55,7 @@ public class ScribbleCanvas extends JPanel {
         repaint();
     }
 
-    public void openFile(String filename) {
+    public boolean openFile(String filename) {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
             shapes = (List) in.readObject();
@@ -64,9 +63,12 @@ public class ScribbleCanvas extends JPanel {
             repaint();
         } catch (IOException e1) {
             System.out.println("Unable to open file: " + filename);
+            return false;
         } catch (ClassNotFoundException e2) {
             System.out.println(e2);
+            return false;
         }
+        return true;
     }
 
     public void saveFile(String filename) {

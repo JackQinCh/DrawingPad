@@ -78,7 +78,7 @@ public class DrawingPad extends Scribble {
     }
 
     protected ToolKit toolkit;
-    protected DrawingCanvas drawingCanvas;
+    public DrawingCanvas drawingCanvas;
 
     public static void main(String[] args) {
         JFrame frame = new DrawingPad("Drawing Pad");

@@ -1,5 +1,7 @@
 package Zhonghua;
 
+import scribble3.ScribbleCanvas;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -19,6 +21,7 @@ public class DrawingPad extends draw3.DrawingPad{
 
     }
 
+
     @Override
     public void newFile() {
         currentFilename = null;
@@ -28,9 +31,17 @@ public class DrawingPad extends draw3.DrawingPad{
 
     @Override
     public void openFile(String filename) {
-        currentFilename = filename;
-        canvas.openFile(filename);
-        setTitle(myTitle+" [" + currentFilename + "]");
+        if (!getExtension(filename).equals(extensionFileName)){
+            JOptionPane.showMessageDialog(null, "Can't open this file.");
+            return;
+        }
+        if (canvas.openFile(filename)){
+            currentFilename = filename;
+            setTitle(myTitle+" [" + currentFilename + "]");
+        }else {
+            JOptionPane.showMessageDialog(null, "Can't open this file.");
+        }
+
     }
 
     @Override
