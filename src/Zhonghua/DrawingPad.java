@@ -1,9 +1,13 @@
 package Zhonghua;
 
+import draw3.KeyboardDrawingCanvas;
+import scribble2.ColorDialog;
 import scribble3.ScribbleCanvas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
@@ -16,11 +20,38 @@ public class DrawingPad extends draw3.DrawingPad{
         super(title);
         this.myTitle = title;
         chooser.setCurrentDirectory(new File("./saves"));
-
         chooser.setFileFilter(new FileFilter());
+
+        JMenu optionMenu = menuBar.getMenu(2);
+        addChangeBackgroundColorOptionToMenu(optionMenu);
 
     }
 
+    @Override
+    protected ScribbleCanvas makeCanvas() {
+        return (drawingCanvas = keyboardDrawingCanvas = new DrawingCanvas());
+    }
+
+    private void addChangeBackgroundColorOptionToMenu(JMenu optionMenu) {
+        JMenuItem mi = new JMenuItem("BackgroundColor");
+        optionMenu.add(mi);
+        mi.addActionListener(new ColorListener());
+    }
+
+    class ColorListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            Color result = dialog.showDialog();
+            if (result != null) {
+                canvas.setBackground(result);
+                canvas.repaint();
+            }
+        }
+
+        protected ColorDialog dialog =
+                new ColorDialog(DrawingPad.this, "Choose color", canvas.getBackground());
+
+    }
 
     @Override
     public void newFile() {
