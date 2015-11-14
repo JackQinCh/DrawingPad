@@ -1,6 +1,5 @@
 package Zhonghua;
 
-import draw3.KeyboardDrawingCanvas;
 import scribble2.ColorDialog;
 import scribble3.ScribbleCanvas;
 
@@ -16,11 +15,19 @@ import java.io.File;
 public class DrawingPad extends draw3.DrawingPad{
     protected final String extensionFileName = ".zhonghua";
     protected String myTitle;
+    private final String defaultFileName = "./saves/Untitled.zhonghua";
     public DrawingPad(String title) {
         super(title);
         this.myTitle = title;
+
+        //Set chooser default directory
         chooser.setCurrentDirectory(new File("./saves"));
         chooser.setFileFilter(new FileFilter());
+        //Open default file.
+        if (canvas.openFile(defaultFileName)){
+            currentFilename = defaultFileName;
+            setTitle(myTitle+" [" + currentFilename + "]");
+        }
 
         JMenu optionMenu = menuBar.getMenu(2);
         addChangeBackgroundColorOptionToMenu(optionMenu);
@@ -102,7 +109,12 @@ public class DrawingPad extends draw3.DrawingPad{
         frame.setVisible(true);
     }
 
-    public static String getExtension(String f) {
+    /**
+     * Get file extension
+     * @param f String File name
+     * @return String File extension
+     */
+    protected static String getExtension(String f) {
         String ext = "";
         int i = f.lastIndexOf('.');
 

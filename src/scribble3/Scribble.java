@@ -87,13 +87,13 @@ public class Scribble extends JFrame {
         return new ScribbleCanvas();
     }
 
-    public void newFile() {
+    protected void newFile() {
         currentFilename = null;
         canvas.newFile();
         setTitle("Scribble Pad");
     }
 
-    public void openFile(String filename) {
+    protected void openFile(String filename) {
         currentFilename = filename;
         canvas.openFile(filename);
         setTitle("Scribble Pad [" + currentFilename + "]");
