@@ -55,7 +55,7 @@ public class ScribbleCanvas extends JPanel {
         repaint();
     }
 
-    public boolean openFile(String filename) {
+    public void openFile(String filename) {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
             shapes = (List) in.readObject();
@@ -63,12 +63,9 @@ public class ScribbleCanvas extends JPanel {
             repaint();
         } catch (IOException e1) {
             System.out.println("Unable to open file: " + filename);
-            return false;
         } catch (ClassNotFoundException e2) {
             System.out.println(e2);
-            return false;
         }
-        return true;
     }
 
     public void saveFile(String filename) {

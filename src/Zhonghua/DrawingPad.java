@@ -4,6 +4,7 @@ import scribble2.ColorDialog;
 import scribble3.ScribbleCanvas;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +14,7 @@ import java.io.File;
  * Created by jack on 15/11/13.
  */
 public class DrawingPad extends draw3.DrawingPad{
-    protected final String extensionFileName = ".zhonghua";
+    protected final String extensionFileName = "zhonghua";
     protected String myTitle;
     private final String defaultFileName = "./saves/Untitled.zhonghua";
     public DrawingPad(String title) {
@@ -22,9 +23,9 @@ public class DrawingPad extends draw3.DrawingPad{
 
         //Set chooser default directory
         chooser.setCurrentDirectory(new File("./saves"));
-        chooser.setFileFilter(new FileFilter());
+        chooser.setFileFilter(new FileNameExtensionFilter("Drawing File(.zhonghua)",extensionFileName));
         //Open default file.
-        if (canvas.openFile(defaultFileName)){
+        if (((DrawingCanvas)canvas).openFileWithFeedback(defaultFileName)){
             currentFilename = defaultFileName;
             setTitle(myTitle+" [" + currentFilename + "]");
         }
@@ -73,7 +74,7 @@ public class DrawingPad extends draw3.DrawingPad{
             JOptionPane.showMessageDialog(null, "Can't open this file.");
             return;
         }
-        if (canvas.openFile(filename)){
+        if (((DrawingCanvas)canvas).openFileWithFeedback(defaultFileName)){
             currentFilename = filename;
             setTitle(myTitle+" [" + currentFilename + "]");
         }else {
@@ -85,7 +86,7 @@ public class DrawingPad extends draw3.DrawingPad{
     @Override
     public void saveFile() {
         if (currentFilename == null) {
-            currentFilename = "./saves/Untitled" + extensionFileName;
+            currentFilename = defaultFileName;
         }
         canvas.saveFile(currentFilename);
         setTitle(myTitle+" [" + currentFilename + "]");
@@ -95,7 +96,7 @@ public class DrawingPad extends draw3.DrawingPad{
     public void saveFileAs(String filename) {
         System.out.println(getExtension(filename));
         if (!getExtension(filename).equals(extensionFileName))
-            currentFilename = filename + extensionFileName;
+            currentFilename = filename + "." + extensionFileName;
         canvas.saveFile(currentFilename);
         setTitle(myTitle+" [" + currentFilename + "]");
     }
@@ -119,7 +120,7 @@ public class DrawingPad extends draw3.DrawingPad{
         int i = f.lastIndexOf('.');
 
         if (i > 0 &&  i < f.length() - 1) {
-            ext = f.substring(i);
+            ext = f.substring(i+1);
         }
         return ext;
     }
