@@ -46,6 +46,8 @@ public class DrawingPad extends draw3.DrawingPad{
         toolkit.addTool(new TwoEndsShapeTool(canvas, "Filled Diamond", new FilledDiamondShape()));
         toolkit.addTool(new TwoEndsShapeTool(canvas, "Triangle", new TriangleShape()));
         toolkit.addTool(new TwoEndsShapeTool(canvas, "Filled Triangle", new FilledTriangleShape()));
+        toolkit.addTool(new TwoEndsShapeTool(canvas, "Circle", new CircleShape()));
+        toolkit.addTool(new TwoEndsShapeTool(canvas, "Fiiled Circle", new FilledCircleShape()));
     }
 
     private void addSelectImageForBackgroundOptionToMenu(JMenu optionMenu) {
