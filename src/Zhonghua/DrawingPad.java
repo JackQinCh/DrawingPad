@@ -1,5 +1,6 @@
 package Zhonghua;
 
+import draw2.TwoEndsShapeTool;
 import scribble2.ColorDialog;
 import scribble3.ScribbleCanvas;
 
@@ -38,6 +39,15 @@ public class DrawingPad extends draw3.DrawingPad{
 
     }
 
+    @Override
+    protected void initTools() {
+        super.initTools();
+        toolkit.addTool(new TwoEndsShapeTool(canvas, "Diamond", new DiamondShape()));
+        toolkit.addTool(new TwoEndsShapeTool(canvas, "Filled Diamond", new FilledDiamondShape()));
+        toolkit.addTool(new TwoEndsShapeTool(canvas, "Triangle", new TriangleShape()));
+        toolkit.addTool(new TwoEndsShapeTool(canvas, "Filled Triangle", new FilledTriangleShape()));
+    }
+
     private void addSelectImageForBackgroundOptionToMenu(JMenu optionMenu) {
         JMenuItem mi = new JMenuItem("Background Image");
         optionMenu.add(mi);
@@ -61,6 +71,7 @@ public class DrawingPad extends draw3.DrawingPad{
             Color result = dialog.showDialog();
             if (result != null) {
                 canvas.setBackground(result);
+                ((DrawingCanvas)canvas).setBackgroundImage(null);
                 canvas.repaint();
             }
         }
@@ -108,14 +119,7 @@ public class DrawingPad extends draw3.DrawingPad{
         setTitle(myTitle+" [" + currentFilename + "]");
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new DrawingPad("Zhonghua Drawing Pad");
-        frame.setSize(width, height);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(screenSize.width/2 - width/2,
-                screenSize.height/2 - height/2);
-        frame.setVisible(true);
-    }
+
 
     /**
      * Get file extension
@@ -174,7 +178,7 @@ public class DrawingPad extends draw3.DrawingPad{
             }
         }
     }
-    public void setBackgroundImage(String filename){
+    protected void setBackgroundImage(String filename){
         try{
             ((DrawingCanvas)canvas).setBackgroundImage(new ImageIcon(filename));
             canvas.repaint();
@@ -183,4 +187,13 @@ public class DrawingPad extends draw3.DrawingPad{
         }
     }
     protected JFileChooser imageChooser = new JFileChooser();
+
+    public static void main(String[] args) {
+        JFrame frame = new DrawingPad("Zhonghua Drawing Pad");
+        frame.setSize(width, height);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(screenSize.width/2 - width/2,
+                screenSize.height/2 - height/2);
+        frame.setVisible(true);
+    }
 }

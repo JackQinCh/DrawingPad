@@ -11,6 +11,10 @@ import java.util.*;
  * Created by jack on 15/11/13.
  */
 public class DrawingCanvas extends draw3.KeyboardDrawingCanvas{
+    public DrawingCanvas() {
+        setBackground(Color.white);
+    }
+
     public void setBackgroundImage(ImageIcon backgroundImage) {
         this.backgroundImage = backgroundImage;
     }
