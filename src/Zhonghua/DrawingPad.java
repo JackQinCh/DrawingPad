@@ -195,13 +195,17 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
      * @return String File extension
      */
     protected static String getExtension(String f) {
-        String ext = "";
-        int i = f.lastIndexOf('.');
+        if (f != null){
+            String ext = "";
+            int i = f.lastIndexOf('.');
 
-        if (i > 0 &&  i < f.length() - 1) {
-            ext = f.substring(i+1);
+            if (i > 0 &&  i < f.length() - 1) {
+                ext = f.substring(i+1);
+            }
+            return ext;
+        }else {
+            return "";
         }
-        return ext;
     }
 
     /**
