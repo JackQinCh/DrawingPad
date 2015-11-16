@@ -7,7 +7,8 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Created by jack on 15/11/15.
+ * EraserShap
+ * Created by Zhonghua on 15/11/15.
  */
 public class EraserShap extends Shape {
     private final int px;

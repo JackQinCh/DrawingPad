@@ -6,7 +6,8 @@ import scribble3.ScribbleCanvas;
 import java.awt.*;
 
 /**
- * Created by jack on 15/11/15.
+ * EraserTool
+ * Created by Zhonghua on 15/11/15.
  */
 public class EraserTool extends AbstractTool{
     private final int px;

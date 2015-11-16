@@ -16,7 +16,8 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Created by jack on 15/11/13.
+ * DrawingCanvas
+ * Created by Zhonghua on 15/11/13.
  */
 public class DrawingCanvas extends draw3.KeyboardDrawingCanvas{
     public DrawingCanvas(UndoListener listener) {

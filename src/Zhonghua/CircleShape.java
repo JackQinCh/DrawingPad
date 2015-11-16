@@ -5,7 +5,8 @@ import draw1.TwoEndsShape;
 import java.awt.*;
 
 /**
- * Created by jack on 15/11/14.
+ * CircleShape
+ * Created by Zhonghua on 15/11/14.
  */
 public class CircleShape extends TwoEndsShape {
     int x, y, d;

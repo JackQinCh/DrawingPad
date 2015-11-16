@@ -7,7 +7,8 @@ import scribble3.ScribbleCanvas;
 import java.awt.*;
 
 /**
- * Created by jack on 15/11/15.
+ * RectEraserTool
+ * Created by Zhonghua on 15/11/15.
  */
 public class RectEraserTool extends TwoEndsShapeTool {
 

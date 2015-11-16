@@ -3,7 +3,8 @@ package Zhonghua;
 import java.awt.*;
 
 /**
- * Created by jack on 15/11/14.
+ * FilledDiamondShape
+ * Created by Zhonghua on 15/11/14.
  */
 public class FilledDiamondShape extends DiamondShape {
     @Override

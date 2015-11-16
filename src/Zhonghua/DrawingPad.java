@@ -16,7 +16,8 @@ import java.io.File;
 import java.util.LinkedList;
 
 /**
- * Created by jack on 15/11/13.
+ * DrawingPad
+ * Created by Zhonghua on 15/11/13.
  */
 public class DrawingPad extends draw3.DrawingPad implements UndoListener{
     protected final String extensionFileName = "zhonghua";

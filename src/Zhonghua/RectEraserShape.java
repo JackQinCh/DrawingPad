@@ -5,7 +5,8 @@ import draw1.RectangleShape;
 import java.awt.*;
 
 /**
- * Created by jack on 15/11/15.
+ * RectEraserShape
+ * Created by Zhonghua on 15/11/15.
  */
 public class RectEraserShape extends RectangleShape {
 

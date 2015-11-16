@@ -3,7 +3,8 @@ package Zhonghua;
 import java.awt.*;
 
 /**
- * Created by jack on 15/11/14.
+ * TriangleShape
+ * Created by Zhonghua on 15/11/14.
  */
 public class TriangleShape extends DiamondShape{
     @Override
