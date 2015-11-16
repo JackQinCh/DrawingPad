@@ -6,6 +6,7 @@ import scribble3.ScribbleCanvas;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,10 +15,13 @@ import java.io.File;
 /**
  * Created by jack on 15/11/13.
  */
-public class DrawingPad extends draw3.DrawingPad{
+public class DrawingPad extends draw3.DrawingPad implements UndoListener{
     protected final String extensionFileName = "zhonghua";
     protected String myTitle;
     private final String defaultFileName = "./saves/Untitled.zhonghua";
+    protected JToolBar editToolBar;
+    private final JButton undoButton;
+    private final JButton redoButton;
     public DrawingPad(String title) {
         super(title);
         this.myTitle = title;
@@ -36,6 +40,17 @@ public class DrawingPad extends draw3.DrawingPad{
         JMenu optionMenu = menuBar.getMenu(2);
         addChangeBackgroundColorOptionToMenu(optionMenu);
         addSelectImageForBackgroundOptionToMenu(optionMenu);
+
+        editToolBar = new JToolBar("Edit tool bar", JToolBar.VERTICAL);
+        undoButton = new JButton("Undo");
+        undoButton.setEnabled(false);
+        undoButton.addActionListener(new UndoActionListener());
+        redoButton = new JButton("Redo");
+        redoButton.setEnabled(false);
+        redoButton.addActionListener(new RedoActionListener());
+        editToolBar.add(undoButton);
+        editToolBar.add(redoButton);
+        getContentPane().add(editToolBar, BorderLayout.EAST);
 
     }
 
@@ -58,7 +73,7 @@ public class DrawingPad extends draw3.DrawingPad{
 
     @Override
     protected ScribbleCanvas makeCanvas() {
-        return (drawingCanvas = keyboardDrawingCanvas = new DrawingCanvas());
+        return (drawingCanvas = keyboardDrawingCanvas = new DrawingCanvas(this));
     }
 
     private void addChangeBackgroundColorOptionToMenu(JMenu optionMenu) {
@@ -66,6 +81,8 @@ public class DrawingPad extends draw3.DrawingPad{
         optionMenu.add(mi);
         mi.addActionListener(new ColorListener());
     }
+
+
 
     class ColorListener implements ActionListener {
 
@@ -191,11 +208,44 @@ public class DrawingPad extends draw3.DrawingPad{
     protected JFileChooser imageChooser = new JFileChooser();
 
     public static void main(String[] args) {
+        width = 1000;
+        height = 700;
         JFrame frame = new DrawingPad("Zhonghua Drawing Pad");
         frame.setSize(width, height);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(screenSize.width/2 - width/2,
                 screenSize.height/2 - height/2);
         frame.setVisible(true);
+    }
+
+    private class UndoActionListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ((DrawingCanvas)canvas).undo();
+        }
+    }
+
+
+    private class RedoActionListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ((DrawingCanvas)canvas).redo();
+        }
+    }
+
+    @Override
+    public void checkUndoManager(UndoManager manager) {
+        undoButton.setEnabled(manager.canUndo());
+        redoButton.setEnabled(manager.canRedo());
     }
 }

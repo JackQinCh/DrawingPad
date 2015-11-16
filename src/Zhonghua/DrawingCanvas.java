@@ -1,18 +1,28 @@
 package Zhonghua;
 
+import scribble3.*;
+import scribble3.Shape;
+
 import javax.swing.*;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by jack on 15/11/13.
  */
 public class DrawingCanvas extends draw3.KeyboardDrawingCanvas{
-    public DrawingCanvas() {
+    public DrawingCanvas(UndoListener listener) {
         setBackground(Color.white);
+        undoManager = new UndoManager();
+        this.undoListener = listener;
     }
 
     public void setBackgroundImage(ImageIcon backgroundImage) {
@@ -59,5 +69,59 @@ public class DrawingCanvas extends draw3.KeyboardDrawingCanvas{
             return false;
         }
         return true;
+    }
+
+    protected UndoManager undoManager;
+    protected UndoListener undoListener;
+
+    @Override
+    protected EventListener makeCanvasListener() {
+        return (drawingCanvasListener = new DrawingListener(this));
+    }
+
+    protected void undo(){
+        try{
+            undoManager.undo();
+            repaint();
+            undoListener.checkUndoManager(undoManager);
+        }catch (CannotUndoException e){
+            e.printStackTrace();
+        }
+    }
+    protected void redo(){
+        try{
+            undoManager.redo();
+            repaint();
+            undoListener.checkUndoManager(undoManager);
+        }catch (CannotRedoException e){
+            e.printStackTrace();
+        }
+    }
+
+    protected void addUndoEdit(){
+        undoManager.addEdit(new DrawEdit(shapes));
+        undoListener.checkUndoManager(undoManager);
+    }
+
+    private final class DrawEdit extends AbstractUndoableEdit {
+        private List<Shape> shapes;
+        private Shape saveShape;
+
+        public DrawEdit(List<Shape> shapes) {
+            this.shapes = shapes;
+        }
+
+        @Override
+        public void undo() throws CannotUndoException {
+            super.undo();
+            saveShape = shapes.get(shapes.size()-1);
+            shapes.remove(shapes.size()-1);
+        }
+
+        @Override
+        public void redo() throws CannotRedoException {
+            super.redo();
+            shapes.add(saveShape);
+        }
     }
 }

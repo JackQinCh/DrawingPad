@@ -26,7 +26,7 @@ public class DrawingPad extends Scribble {
             }
         };
         JComponent toolbar = createToolBar(toolListener);
-        getContentPane().add(toolbar, BorderLayout.WEST);
+        getContentPane().add(toolbar, BorderLayout.SOUTH);
         JMenu menu = createToolMenu(toolListener);
         menuBar.add(menu, 1); // insert at index position 1
     }
@@ -50,7 +50,8 @@ public class DrawingPad extends Scribble {
     }
 
     protected JComponent createToolBar(ActionListener toolListener) {
-        JPanel toolbar = new JPanel(new GridLayout(0, 1));
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(true);
         int n = toolkit.getToolCount();
         for (int i = 0; i < n; i++) {
             Tool tool = toolkit.getTool(i);
