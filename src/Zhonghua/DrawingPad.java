@@ -31,11 +31,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         chooser.setFileFilter(new FileNameExtensionFilter("Drawing File(.zhonghua)",extensionFileName));
         imageChooser.setCurrentDirectory(new File("."));
         imageChooser.setFileFilter(new FileNameExtensionFilter("Image Files(jpeg,png,jpg)", "jpeg","png","jpg"));
-        //Open default file.
-        if (((DrawingCanvas)canvas).openFileWithFeedback(defaultFileName)){
-            currentFilename = defaultFileName;
-            setTitle(myTitle+" [" + currentFilename + "]");
-        }
+
 
         JMenu optionMenu = menuBar.getMenu(2);
         addChangeBackgroundColorOptionToMenu(optionMenu);
@@ -52,6 +48,11 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         editToolBar.add(redoButton);
         getContentPane().add(editToolBar, BorderLayout.EAST);
 
+        //Open default file.
+        if (((DrawingCanvas)canvas).openFileWithFeedback(defaultFileName)){
+            currentFilename = defaultFileName;
+            setTitle(myTitle+" [" + currentFilename + "]");
+        }
     }
 
     @Override

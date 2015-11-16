@@ -68,12 +68,25 @@ public class DrawingCanvas extends draw3.KeyboardDrawingCanvas{
             System.out.println(e2);
             return false;
         }
+        initUndoManager();
         return true;
     }
 
     protected UndoManager undoManager;
     protected UndoListener undoListener;
 
+    @Override
+    public void newFile() {
+        super.newFile();
+        initUndoManager();
+    }
+
+    protected void initUndoManager(){
+        undoManager = new UndoManager();
+        undoListener.checkUndoManager(undoManager);
+        System.out.println("Can Undo:"+undoManager.canUndo());
+        System.out.println("Can Redo:"+undoManager.canRedo());
+    }
     @Override
     protected EventListener makeCanvasListener() {
         return (drawingCanvasListener = new DrawingListener(this));
