@@ -340,7 +340,8 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            Tool tool = new TwoEndsShapeTool(canvas, "Rect Eraser", new RectEraserShape());
+            drawingCanvas.setTool(tool);
         }
     }
 }
