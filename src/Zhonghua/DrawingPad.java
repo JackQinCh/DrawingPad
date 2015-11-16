@@ -1,6 +1,5 @@
 package Zhonghua;
 
-import com.sun.scenario.effect.ColorAdjust;
 import draw2.TwoEndsShapeTool;
 import scribble2.ColorDialog;
 import scribble3.ScribbleCanvas;
