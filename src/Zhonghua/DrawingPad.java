@@ -3,6 +3,7 @@ package Zhonghua;
 import draw2.TwoEndsShapeTool;
 import scribble2.ColorDialog;
 import scribble3.ScribbleCanvas;
+import scribble3.Tool;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.LinkedList;
 
 /**
  * Created by jack on 15/11/13.
@@ -20,11 +22,16 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
     protected String myTitle;
     private final String defaultFileName = "./saves/Untitled.zhonghua";
     protected JToolBar editToolBar;
-    private final JButton undoButton;
-    private final JButton redoButton;
+    private JButton undoButton;
+    private JButton redoButton;
+    private LinkedList<JButton> buttons = new LinkedList<>();
     public DrawingPad(String title) {
         super(title);
         this.myTitle = title;
+
+        for (Component button:toolbar.getComponents()){
+            buttons.add((JButton) button);
+        }
 
         //Set chooser default directory
         chooser.setCurrentDirectory(new File("./saves"));
@@ -37,15 +44,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         addChangeBackgroundColorOptionToMenu(optionMenu);
         addSelectImageForBackgroundOptionToMenu(optionMenu);
 
-        editToolBar = new JToolBar("Edit tool bar", JToolBar.VERTICAL);
-        undoButton = new JButton("Undo");
-        undoButton.setEnabled(false);
-        undoButton.addActionListener(new UndoActionListener());
-        redoButton = new JButton("Redo");
-        redoButton.setEnabled(false);
-        redoButton.addActionListener(new RedoActionListener());
-        editToolBar.add(undoButton);
-        editToolBar.add(redoButton);
+        editToolBar = initEditToolBar();
         getContentPane().add(editToolBar, BorderLayout.EAST);
 
         //Open default file.
@@ -53,6 +52,46 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
             currentFilename = defaultFileName;
             setTitle(myTitle+" [" + currentFilename + "]");
         }
+    }
+
+    protected JToolBar initEditToolBar(){
+        JToolBar toolBar = new JToolBar("Edit tool bar", JToolBar.VERTICAL);
+
+        undoButton = new JButton("Undo");
+        undoButton.setEnabled(false);
+        undoButton.addActionListener(new UndoActionListener());
+        redoButton = new JButton("Redo");
+        redoButton.setEnabled(false);
+        redoButton.addActionListener(new RedoActionListener());
+
+        JLabel eraserLabel = new JLabel("Eraser");
+        JButton fiveEraserButton = new JButton("5 px");
+        fiveEraserButton.addActionListener(new FivePXActionListener());
+        JButton tenEraserButton = new JButton("10px");
+        tenEraserButton.addActionListener(new TenPXActionListener());
+        JButton thirtyEraserButton = new JButton("30px");
+        thirtyEraserButton.addActionListener(new ThirtyPXActionListener());
+        JButton rectEraserButton = new JButton("rect");
+        rectEraserButton.addActionListener(new RectEraserActionListener());
+
+
+
+        toolBar.add(undoButton);
+        toolBar.add(redoButton);
+        toolBar.addSeparator();
+        toolBar.add(eraserLabel);
+        toolBar.add(fiveEraserButton);
+        toolBar.add(tenEraserButton);
+        toolBar.add(thirtyEraserButton);
+        toolBar.add(rectEraserButton);
+
+
+        buttons.add(fiveEraserButton);
+        buttons.add(tenEraserButton);
+        buttons.add(thirtyEraserButton);
+        buttons.add(rectEraserButton);
+
+        return toolBar;
     }
 
     @Override
@@ -63,7 +102,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         toolkit.addTool(new TwoEndsShapeTool(canvas, "Triangle", new TriangleShape()));
         toolkit.addTool(new TwoEndsShapeTool(canvas, "Filled Triangle", new FilledTriangleShape()));
         toolkit.addTool(new TwoEndsShapeTool(canvas, "Circle", new CircleShape()));
-        toolkit.addTool(new TwoEndsShapeTool(canvas, "Fiiled Circle", new FilledCircleShape()));
+        toolkit.addTool(new TwoEndsShapeTool(canvas, "Filled Circle", new FilledCircleShape()));
     }
 
     private void addSelectImageForBackgroundOptionToMenu(JMenu optionMenu) {
@@ -250,5 +289,58 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
     public void checkUndoManager(UndoManager manager) {
         undoButton.setEnabled(manager.canUndo());
         redoButton.setEnabled(manager.canRedo());
+    }
+
+
+    private class FivePXActionListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Tool tool = new EraserTool(canvas, "Eraser 5", 5);
+            drawingCanvas.setTool(tool);
+        }
+    }
+
+    private class TenPXActionListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Tool tool = new EraserTool(canvas, "Eraser 10", 10);
+            drawingCanvas.setTool(tool);
+        }
+    }
+
+    private class ThirtyPXActionListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Tool tool = new EraserTool(canvas, "Eraser 30", 30);
+            drawingCanvas.setTool(tool);
+
+        }
+    }
+
+    private class RectEraserActionListener implements ActionListener {
+        /**
+         * Invoked when an action occurs.
+         *
+         * @param e
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
     }
 }

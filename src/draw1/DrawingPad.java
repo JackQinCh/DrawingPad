@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 public class DrawingPad extends Scribble {
 
+    protected final JComponent toolbar;
     public DrawingPad(String title) {
         super(title);
         initTools();
@@ -25,7 +26,7 @@ public class DrawingPad extends Scribble {
                 }
             }
         };
-        JComponent toolbar = createToolBar(toolListener);
+        toolbar = createToolBar(toolListener);
         getContentPane().add(toolbar, BorderLayout.SOUTH);
         JMenu menu = createToolMenu(toolListener);
         menuBar.add(menu, 1); // insert at index position 1

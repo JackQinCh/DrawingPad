@@ -25,8 +25,10 @@ public class DrawingCanvas extends draw3.KeyboardDrawingCanvas{
         this.undoListener = listener;
     }
 
-    public void setBackgroundImage(ImageIcon backgroundImage) {
-        this.backgroundImage = backgroundImage;
+    public void setBackgroundImage(ImageIcon b) {
+        backgroundImage = b;
+        if (backgroundImage != null)
+            setBackground(Color.white);
     }
 
     protected ImageIcon backgroundImage;
@@ -43,10 +45,10 @@ public class DrawingCanvas extends draw3.KeyboardDrawingCanvas{
         }
 
         //Brush color
-        g.setColor(Color.black);
         if (shapes != null) {
             Iterator iter = shapes.iterator();
             while (iter.hasNext()) {
+                g.setColor(getBackground());
                 scribble3.Shape shape = (scribble3.Shape) iter.next();
                 if (shape != null) {
                     shape.draw(g);
