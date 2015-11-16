@@ -35,8 +35,10 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
             buttons.add((JButton) button);
         }
 
+        File directory = new File("./saves");
+        directory.mkdir();
         //Set chooser default directory
-        chooser.setCurrentDirectory(new File("./saves"));
+        chooser.setCurrentDirectory(directory);
         chooser.setFileFilter(new FileNameExtensionFilter("Drawing File(.zhonghua)",extensionFileName));
         imageChooser.setCurrentDirectory(new File("."));
         imageChooser.setFileFilter(new FileNameExtensionFilter("Image Files(jpeg,png,jpg)", "jpeg","png","jpg"));
@@ -55,6 +57,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
             setTitle(myTitle+" [" + currentFilename + "]");
         }
         statusLabel = new JLabel("Current tool: "+toolkit.getTool(0).getName());
+        toolbar.add(Box.createHorizontalGlue());
         toolbar.add(statusLabel);
     }
 
@@ -257,7 +260,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         width = 1000;
         height = 700;
         JFrame frame = new DrawingPad("Zhonghua Drawing Pad");
-        frame.setSize(width, height);
+        frame.setMinimumSize(new Dimension(width, height));
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(screenSize.width/2 - width/2,
                 screenSize.height/2 - height/2);
