@@ -134,6 +134,8 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
     public void saveFileAs(String filename) {
         if (!checkExtension(filename, extensionFileName))
             currentFilename = filename + "." + extensionFileName;
+        else
+            currentFilename = filename;
         canvas.saveFile(currentFilename);
         setTitle(myTitle+" [" + currentFilename + "]");
     }
