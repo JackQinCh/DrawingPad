@@ -23,6 +23,7 @@ public class DrawingPad extends Scribble {
                     AbstractButton button = (AbstractButton) source;
                     Tool tool = toolkit.setSelectedTool(button.getText());
                     drawingCanvas.setTool(tool);
+                    refreshButtons(button.getActionCommand());
                 }
             }
         };
@@ -30,6 +31,9 @@ public class DrawingPad extends Scribble {
         getContentPane().add(toolbar, BorderLayout.SOUTH);
         JMenu menu = createToolMenu(toolListener);
         menuBar.add(menu, 1); // insert at index position 1
+    }
+
+    protected void refreshButtons(String name) {
     }
 
     public Tool getSelectedTool() {

@@ -1,5 +1,6 @@
 package Zhonghua;
 
+import com.sun.scenario.effect.ColorAdjust;
 import draw2.TwoEndsShapeTool;
 import scribble2.ColorDialog;
 import scribble3.ScribbleCanvas;
@@ -25,6 +26,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
     private JButton undoButton;
     private JButton redoButton;
     private LinkedList<JButton> buttons = new LinkedList<>();
+    private JLabel statusLabel;
     public DrawingPad(String title) {
         super(title);
         this.myTitle = title;
@@ -52,6 +54,8 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
             currentFilename = defaultFileName;
             setTitle(myTitle+" [" + currentFilename + "]");
         }
+        statusLabel = new JLabel("Current tool: "+toolkit.getTool(0).getName());
+        toolbar.add(statusLabel);
     }
 
     protected JToolBar initEditToolBar(){
@@ -73,7 +77,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         thirtyEraserButton.addActionListener(new ThirtyPXActionListener());
         JButton rectEraserButton = new JButton("rect");
         rectEraserButton.addActionListener(new RectEraserActionListener());
-
+        rectEraserButton.setBackground(Color.cyan);
 
 
         toolBar.add(undoButton);
@@ -302,6 +306,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         public void actionPerformed(ActionEvent e) {
             Tool tool = new EraserTool(canvas, "Eraser 5", 5);
             drawingCanvas.setTool(tool);
+            refreshButtons("Eraser 5px");
         }
     }
 
@@ -315,6 +320,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         public void actionPerformed(ActionEvent e) {
             Tool tool = new EraserTool(canvas, "Eraser 10", 10);
             drawingCanvas.setTool(tool);
+            refreshButtons("Eraser 10px");
         }
     }
 
@@ -328,6 +334,7 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         public void actionPerformed(ActionEvent e) {
             Tool tool = new EraserTool(canvas, "Eraser 30", 30);
             drawingCanvas.setTool(tool);
+            refreshButtons("Eraser 30px");
 
         }
     }
@@ -342,6 +349,12 @@ public class DrawingPad extends draw3.DrawingPad implements UndoListener{
         public void actionPerformed(ActionEvent e) {
             Tool tool = new TwoEndsShapeTool(canvas, "Rect Eraser", new RectEraserShape());
             drawingCanvas.setTool(tool);
+            refreshButtons("Eraser Rect");
         }
+    }
+
+    @Override
+    protected void refreshButtons(String name) {
+        statusLabel.setText("Current tool: "+name);
     }
 }
